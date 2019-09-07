@@ -1,19 +1,19 @@
 function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
-  var url = `/metadata/${sample}`;
+  var url = `/metadata/${sample}`
   // Use `d3.json` to fetch the metadata for a sample
   d3.json(url).then(function(sample){
     // Use d3 to select the panel with id of `#sample-metadata`
-    var sample = d3.select("#sample-metadata");
+    var sample = d3.select("#sample-metadata")
     // Use `.html("") to clear any existing metadata
-    sample.html("");
+    sample.html("")
     // Use `Object.entries` to add each key and value pair to the panel
     // Hint: Inside the loop, you will need to use d3 to append new
     // tags for each key-value in the metadata.
     Object.entries(sample).forEach(function([key, value]){
-      var row = sample.append("p");
-      row.text(`${key}, ${value}`);
+      var row = sample.append("p")
+      row.text(`${key}, ${value}`)
 })
 })
 }
@@ -23,11 +23,11 @@ function buildCharts(sample) {
   // @TODO: Use `d3.json` to fetch the sample data for the plots
   d3.json(url).then(function(data){
     // @TODO: Build a Bubble Chart using the sample data
-    var x_value = data.otu_ids;
-    var y_value = data.sample_values;
-    var m_size = data.sample_values;
-    var m_color = data.otu_ids;
-    var t_value = data.otu_labels;
+    var x_value = data.otu_ids
+    var y_value = data.sample_values
+    var m_size = data.sample_values
+    var m_color = data.otu_ids
+    var t_value = data.otu_labels
     
     var trace_1 = {
       x: x_value,
@@ -53,9 +53,9 @@ function buildCharts(sample) {
     // otu_ids, and labels (10 each).
     d3.json(url).then(function(data){
 
-      var pie_values = data.sample_values.slice(0, 10);
-      var pie_labels = data.otu_ids.slice(0,10);
-      var hovertext = data.otu_labels.slice(0,10);
+      var pie_values = data.sample_values.slice(0, 10)
+      var pie_labels = data.otu_ids.slice(0,10)
+      var hovertext = data.otu_labels.slice(0,10)
   
       var pie_chart = {
           values: pie_values,
@@ -64,7 +64,7 @@ function buildCharts(sample) {
           hoverinfo: hovertext
       };
   
-      var data = [pie_chart];
+      var data = [pie_chart]
   
       Plotly.newPlot("pie", data);
   });
@@ -73,7 +73,7 @@ function buildCharts(sample) {
 
 function init() {
   // Grab a reference to the dropdown select element
-  var selector = d3.select("#selDataset");
+  var selector = d3.select("#selDataset")
 
   // Use the list of sample names to populate the select options
   d3.json("/names").then((sampleNames) => {
@@ -81,13 +81,13 @@ function init() {
       selector
         .append("option")
         .text(sample)
-        .property("value", sample);
+        .property("value", sample)
     });
 
     // Use the first sample from the list to build the initial plots
-    const firstSample = sampleNames[0];
-    buildCharts(firstSample);
-    buildMetadata(firstSample);
+    const firstSample = sampleNames[0]
+    buildCharts(firstSample)
+    buildMetadata(firstSample)
   });
 }
 
